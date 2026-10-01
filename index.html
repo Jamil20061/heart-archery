@@ -1,27 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-      <link rel="manifest" href="manifest.json">
 
-<meta name="theme-color" content="#ff1744">
+<meta charset="UTF-8">
 
-<meta name="mobile-web-app-capable" content="yes">
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>Heart Archery</title>
+
+<link rel="manifest"
+      href="manifest.json">
+
+<meta name="theme-color"
+      content="#87ceeb">
+
+<meta name="mobile-web-app-capable"
+      content="yes">
 
 <meta name="apple-mobile-web-app-capable"
       content="yes">
 
 <meta name="apple-mobile-web-app-status-bar-style"
       content="black-translucent">
-<meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0,
-      user-scalable=no">
-
-<title>Heart Archery ❤️</title>
 
 <style>
+
+/* ==================================================
+   RESET
+================================================== */
 
 *{
     box-sizing:border-box;
@@ -32,195 +44,702 @@
 
 html,
 body{
+
     width:100%;
     height:100%;
+
     overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:#050006;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    background:#111;
+
 }
 
 body{
+
     touch-action:none;
+
 }
 
+
+/* ==================================================
+   GAME
+================================================== */
+
 .game{
+
+    position:relative;
+
     width:100vw;
     height:100vh;
-    position:relative;
+
     overflow:hidden;
 
     background:
-        radial-gradient(
-            circle at center,
-            #210010 0%,
-            #0b0008 48%,
-            #020003 100%
+        linear-gradient(
+            to bottom,
+            #62bde7 0%,
+            #a8dcf0 42%,
+            #e8c994 43%,
+            #c99555 100%
         );
+
 }
 
-/* =========================
-   BACKGROUND
-========================= */
 
-canvas{
+/* ==================================================
+   SKY
+================================================== */
+
+.sky{
+
     position:absolute;
+
     inset:0;
-    width:100%;
-    height:100%;
+
+    overflow:hidden;
+
     pointer-events:none;
+
 }
 
-/* =========================
-   HEADER
-========================= */
 
-.header{
+/* Sun */
+
+.sun{
+
     position:absolute;
-    top:18px;
-    left:50%;
 
-    transform:translateX(-50%);
+    width:85px;
+    height:85px;
 
-    width:92%;
-    max-width:600px;
+    border-radius:50%;
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    z-index:20;
-
-    color:white;
-
-    padding:12px 18px;
-
-    border:1px solid rgba(255,255,255,.12);
-
-    border-radius:18px;
+    right:12%;
+    top:9%;
 
     background:
-        rgba(255,255,255,.05);
+        radial-gradient(
+            circle,
+            #fff6bd,
+            #ffd978 55%,
+            rgba(255,210,100,.1) 72%,
+            transparent 75%
+        );
 
-    backdrop-filter:blur(12px);
+    filter:
+        blur(.5px);
+
+    opacity:.9;
+
+}
+
+
+/* Clouds */
+
+.cloud{
+
+    position:absolute;
+
+    width:130px;
+    height:30px;
+
+    border-radius:50px;
+
+    background:
+        rgba(255,255,255,.58);
+
+    filter:blur(4px);
+
+    opacity:.65;
+
+    animation:
+        cloudMove
+        linear
+        infinite;
+
+}
+
+.cloud::before,
+.cloud::after{
+
+    content:"";
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.62);
+
+}
+
+.cloud::before{
+
+    width:55px;
+    height:55px;
+
+    left:20px;
+    top:-25px;
+
+}
+
+.cloud::after{
+
+    width:75px;
+    height:65px;
+
+    left:65px;
+    top:-35px;
+
+}
+
+
+.cloud.one{
+
+    top:14%;
+    left:-180px;
+
+    animation-duration:48s;
+
+}
+
+.cloud.two{
+
+    top:27%;
+    left:-220px;
+
+    transform:scale(.7);
+
+    animation-duration:65s;
+
+    animation-delay:-25s;
+
+}
+
+@keyframes cloudMove{
+
+    from{
+        transform:
+            translateX(0);
+    }
+
+    to{
+        transform:
+            translateX(
+                calc(100vw + 450px)
+            );
+    }
+
+}
+
+
+/* ==================================================
+   DISTANT MOUNTAINS
+================================================== */
+
+.mountains{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    bottom:38%;
+
+    height:28%;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            transparent 49%,
+            #c9b49a 50%
+        ) 0 100% / 24% 100% no-repeat,
+
+        linear-gradient(
+            225deg,
+            transparent 49%,
+            #bca68e 50%
+        ) 12% 100% / 27% 100% no-repeat,
+
+        linear-gradient(
+            135deg,
+            transparent 49%,
+            #d4c0a0 50%
+        ) 31% 100% / 28% 100% no-repeat,
+
+        linear-gradient(
+            225deg,
+            transparent 49%,
+            #ad9985 50%
+        ) 48% 100% / 30% 100% no-repeat,
+
+        linear-gradient(
+            135deg,
+            transparent 49%,
+            #c7af91 50%
+        ) 68% 100% / 31% 100% no-repeat,
+
+        linear-gradient(
+            225deg,
+            transparent 49%,
+            #a99683 50%
+        ) 82% 100% / 25% 100% no-repeat;
+
+    opacity:.9;
+
+}
+
+
+/* ==================================================
+   FAR LAND
+================================================== */
+
+.far-land{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    bottom:25%;
+
+    height:25%;
+
+    background:
+
+        linear-gradient(
+            155deg,
+            transparent 48%,
+            #e5c993 49%
+        ) 0 0 / 32% 100% no-repeat,
+
+        linear-gradient(
+            205deg,
+            transparent 48%,
+            #d7b678 49%
+        ) 25% 0 / 35% 100% no-repeat,
+
+        linear-gradient(
+            160deg,
+            transparent 48%,
+            #e8cc96 49%
+        ) 55% 0 / 30% 100% no-repeat,
+
+        linear-gradient(
+            200deg,
+            transparent 48%,
+            #cfa968 49%
+        ) 75% 0 / 35% 100% no-repeat;
+
+}
+
+
+/* ==================================================
+   RIVER
+================================================== */
+
+.river{
+
+    position:absolute;
+
+    left:34%;
+
+    bottom:-4%;
+
+    width:58%;
+
+    height:29%;
+
+    transform:
+        rotate(-3deg);
+
+    background:
+        linear-gradient(
+            175deg,
+            #7dc7d5,
+            #b9e2df 45%,
+            #6faeb6
+        );
+
+    clip-path:
+        polygon(
+            0 45%,
+            13% 38%,
+            30% 42%,
+            44% 29%,
+            58% 34%,
+            73% 19%,
+            100% 10%,
+            100% 100%,
+            0 100%
+        );
+
+    opacity:.9;
+
+}
+
+
+/* river shine */
+
+.river::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:10%;
+    top:35%;
+
+    width:65%;
+    height:3px;
+
+    background:
+        rgba(255,255,255,.45);
 
     box-shadow:
-        0 0 25px rgba(255,20,80,.08);
+        60px 20px rgba(255,255,255,.35),
+        140px -15px rgba(255,255,255,.25),
+        220px 28px rgba(255,255,255,.3);
+
 }
 
-.stat{
-    text-align:center;
+
+/* ==================================================
+   DESERT
+================================================== */
+
+.desert{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    bottom:0;
+
+    height:47%;
+
+    background:
+
+        radial-gradient(
+            ellipse at 20% 70%,
+            #e9c77f 0 20%,
+            transparent 21%
+        ),
+
+        radial-gradient(
+            ellipse at 70% 65%,
+            #d8ae65 0 23%,
+            transparent 24%
+        ),
+
+        linear-gradient(
+            to bottom,
+            #d8b16c,
+            #a9703d
+        );
+
 }
 
-.stat small{
+
+/* sand waves */
+
+.dune{
+
+    position:absolute;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,224,150,.35);
+
+    filter:blur(1px);
+
+}
+
+.dune.one{
+
+    width:55%;
+    height:90px;
+
+    left:-10%;
+    bottom:24%;
+
+}
+
+.dune.two{
+
+    width:50%;
+    height:80px;
+
+    right:-8%;
+    bottom:31%;
+
+    background:
+        rgba(164,103,52,.35);
+
+}
+
+.dune.three{
+
+    width:45%;
+    height:70px;
+
+    left:25%;
+    bottom:6%;
+
+    background:
+        rgba(255,211,125,.3);
+
+}
+
+
+/* ==================================================
+   ROCKS
+================================================== */
+
+.rock{
+
+    position:absolute;
+
+    background:
+        linear-gradient(
+            135deg,
+            #b98c52,
+            #805632
+        );
+
+    clip-path:
+        polygon(
+            5% 100%,
+            18% 30%,
+            48% 10%,
+            75% 35%,
+            100% 100%
+        );
+
+}
+
+.rock.one{
+
+    width:75px;
+    height:60px;
+
+    left:10%;
+    bottom:13%;
+
+}
+
+.rock.two{
+
+    width:95px;
+    height:65px;
+
+    right:18%;
+    bottom:18%;
+
+}
+
+.rock.three{
+
+    width:55px;
+    height:48px;
+
+    right:5%;
+    bottom:11%;
+
+}
+
+
+/* ==================================================
+   UI
+================================================== */
+
+.ui{
+
+    position:absolute;
+
+    left:0;
+    right:0;
+
+    top:0;
+
+    z-index:50;
+
+    display:flex;
+
+    justify-content:
+        space-between;
+
+    align-items:flex-start;
+
+    padding:
+        12px
+        22px;
+
+    pointer-events:none;
+
+}
+
+.scoreBox{
+
+    color:#1b160f;
+
+    text-shadow:
+        0 1px 0
+        rgba(255,255,255,.6);
+
+}
+
+.scoreBox small{
+
     display:block;
 
-    font-size:10px;
-
-    color:#ff9ab8;
+    font-size:
+        clamp(
+            9px,
+            1.8vw,
+            15px
+        );
 
     letter-spacing:1px;
 
-    margin-bottom:3px;
 }
 
-.stat strong{
-    font-size:20px;
+.scoreBox strong{
 
-    color:white;
+    display:block;
 
-    text-shadow:
-        0 0 10px #ff3970;
+    font-family:
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(
+            22px,
+            4vw,
+            38px
+        );
+
+    font-weight:
+        normal;
+
 }
 
-/* =========================
-   TARGET AREA
-========================= */
 
-.target-area{
+/* ==================================================
+   TARGET
+================================================== */
+
+.target{
 
     position:absolute;
 
-    left:50%;
-    top:45%;
+    z-index:20;
 
-    transform:
-        translate(-50%,-50%);
+    width:
+        clamp(
+            100px,
+            17vw,
+            175px
+        );
 
-    width:min(78vw,360px);
     aspect-ratio:1;
 
-    z-index:5;
+    right:13%;
+
+    top:25%;
+
 }
 
-/* Target shadow */
 
-.target-shadow{
+/* ropes */
+
+.rope{
 
     position:absolute;
 
-    inset:-25px;
+    width:3px;
+
+    height:95px;
+
+    top:-75px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #8b683f,
+            #c69a5b
+        );
+
+}
+
+.rope.left{
+
+    left:31%;
+
+}
+
+.rope.right{
+
+    right:31%;
+
+}
+
+
+/* target board */
+
+.board{
+
+    position:absolute;
+
+    inset:0;
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            rgba(255,30,90,.18),
-            transparent 68%
+            #ff4030 0 12%,
+            #ffd53d 12% 25%,
+            #168bd2 25% 40%,
+            #ed3434 40% 58%,
+            #f5f0dd 58% 100%
         );
 
-    filter:blur(15px);
-
-    animation:
-        targetGlow 2s
-        infinite
-        ease-in-out;
-}
-
-@keyframes targetGlow{
-
-    0%,100%{
-        transform:scale(.94);
-        opacity:.6;
-    }
-
-    50%{
-        transform:scale(1.05);
-        opacity:1;
-    }
-}
-
-/* =========================
-   TARGET CIRCLES
-========================= */
-
-.target{
-    position:absolute;
-
-    inset:0;
-
-    border-radius:50%;
-
-    overflow:visible;
+    border:
+        6px solid
+        #725136;
 
     box-shadow:
-        0 0 25px rgba(255,30,80,.35),
-        0 0 70px rgba(255,30,80,.12);
+
+        0 7px 10px
+        rgba(0,0,0,.4),
+
+        inset 0 0 0 3px
+        rgba(255,255,255,.6),
+
+        0 15px 25px
+        rgba(0,0,0,.25);
+
 }
 
-/*
-    Six scoring zones
 
-    Center = 10
-    next   = 5
-    next   = 4
-    next   = 3
-    next   = 2
-    outer  = 1
-*/
+/* target center */
 
-.ring{
+.centerDot{
+
     position:absolute;
+
+    width:13%;
+
+    aspect-ratio:1;
 
     left:50%;
     top:50%;
@@ -230,245 +749,248 @@ canvas{
 
     border-radius:50%;
 
-    display:flex;
+    border:
+        2px solid
+        white;
 
-    align-items:center;
-    justify-content:center;
-
-    font-weight:bold;
-
-    border:2px solid rgba(255,255,255,.8);
+    background:
+        #ff3c2f;
 
     box-shadow:
-        inset 0 0 20px rgba(255,255,255,.08),
-        0 0 12px rgba(255,255,255,.08);
+        0 0 8px
+        rgba(255,0,0,.7);
+
 }
 
-/* 1 point */
 
-.ring-1{
-    width:100%;
+/* ==================================================
+   BOW
+================================================== */
+
+.bow{
+
+    position:absolute;
+
+    z-index:25;
+
+    left:13%;
+
+    bottom:17%;
+
+    width:
+        clamp(
+            90px,
+            14vw,
+            145px
+        );
+
+    height:
+        clamp(
+            180px,
+            28vw,
+            250px
+        );
+
+    transform:
+        rotate(-4deg);
+
+}
+
+
+/* bow wood */
+
+.bowWood{
+
+    position:absolute;
+
+    left:45%;
+
+    top:0;
+
+    width:16px;
+
     height:100%;
 
-    background:#efefef;
+    border-radius:50%;
 
-    color:#111;
+    border-left:
+        8px solid
+        #7b421f;
 
-    font-size:13px;
-}
-
-/* 2 point */
-
-.ring-2{
-    width:82%;
-    height:82%;
-
-    background:#111;
-
-    color:white;
-
-    font-size:13px;
-}
-
-/* 3 point */
-
-.ring-3{
-    width:65%;
-    height:65%;
-
-    background:#168cff;
-
-    color:white;
-
-    font-size:13px;
-}
-
-/* 4 point */
-
-.ring-4{
-    width:49%;
-    height:49%;
-
-    background:#e91e3f;
-
-    color:white;
-
-    font-size:13px;
-}
-
-/* 5 point */
-
-.ring-5{
-    width:33%;
-    height:33%;
-
-    background:#ffd43b;
-
-    color:#111;
-
-    font-size:12px;
-}
-
-/* 10 point */
-
-.ring-10{
-    width:17%;
-    height:17%;
-
-    background:#ff3b30;
-
-    color:white;
-
-    font-size:10px;
-
-    border:2px solid white;
-
-    box-shadow:
-        0 0 15px #ff1744,
-        0 0 30px rgba(255,23,68,.8);
-}
-
-/* target label */
-
-.target-label{
-
-    position:absolute;
-
-    left:50%;
-    top:50%;
+    border-right:
+        4px solid
+        #b56a2c;
 
     transform:
-        translate(-50%,-50%);
+        rotate(8deg);
 
-    color:white;
-
-    font-size:7px;
-
-    font-weight:bold;
-
-    pointer-events:none;
-
-    z-index:10;
 }
 
-/* =========================
-   AIM GUIDE
-========================= */
 
-.aim-line{
+/* bow string */
+
+.bowString{
 
     position:absolute;
 
-    height:2px;
+    left:51%;
 
-    transform-origin:left center;
+    top:1%;
+
+    width:2px;
+
+    height:98%;
+
+    background:
+        rgba(40,30,20,.8);
+
+}
+
+
+/* handle */
+
+.bowHandle{
+
+    position:absolute;
+
+    left:37%;
+
+    top:44%;
+
+    width:32px;
+
+    height:65px;
+
+    border-radius:8px;
 
     background:
         linear-gradient(
-            90deg,
-            rgba(255,255,255,.7),
-            transparent
+            to right,
+            #5c2d16,
+            #a8612b,
+            #572810
         );
 
-    opacity:0;
-
-    pointer-events:none;
-
-    z-index:7;
 }
 
-/* =========================
+
+/* ==================================================
    ARROW
-========================= */
+================================================== */
 
 .arrow{
 
     position:absolute;
 
-    width:125px;
+    z-index:40;
+
+    width:
+        clamp(
+            115px,
+            18vw,
+            180px
+        );
 
     height:12px;
 
-    z-index:15;
-
     transform-origin:
-        10px 50%;
-
-    cursor:grab;
+        12px 50%;
 
     user-select:none;
 
     touch-action:none;
 
+    cursor:
+        grab;
+
     filter:
         drop-shadow(
-            0 0 7px
-            rgba(255,255,255,.35)
+            0 3px 3px
+            rgba(0,0,0,.4)
         );
+
 }
 
 .arrow.dragging{
-    cursor:grabbing;
+
+    cursor:
+        grabbing;
+
 }
 
-/* arrow shaft */
 
-.arrow-shaft{
+/* shaft */
+
+.arrowShaft{
 
     position:absolute;
 
     left:10px;
+
     top:5px;
 
-    width:105px;
-    height:3px;
+    width:calc(100% - 20px);
 
-    border-radius:5px;
+    height:4px;
 
     background:
         linear-gradient(
-            90deg,
-            #e8e8e8,
-            #ffffff,
-            #aaa
+            to bottom,
+            #d9b078,
+            #704322
         );
+
+    border-radius:4px;
+
 }
+
 
 /* arrow head */
 
-.arrow-head{
+.arrowHead{
 
     position:absolute;
 
     right:0;
+
     top:1px;
 
     width:0;
     height:0;
 
-    border-top:5px solid transparent;
+    border-top:
+        5px solid transparent;
 
-    border-bottom:5px solid transparent;
-
-    border-right:0;
+    border-bottom:
+        5px solid transparent;
 
     border-left:
-        16px solid #ddd;
+        18px solid
+        #c8c8c8;
+
+    filter:
+        drop-shadow(
+            0 1px 1px
+            rgba(0,0,0,.6)
+        );
+
 }
 
-/* arrow feathers */
 
-.feather1,
-.feather2{
+/* feathers */
+
+.feather{
 
     position:absolute;
 
-    left:5px;
+    left:3px;
 
-    width:18px;
+    width:24px;
+
     height:8px;
 
-    background:#ff4f88;
+    background:
+        #9b4c25;
 
     clip-path:
         polygon(
@@ -476,336 +998,560 @@ canvas{
             100% 0,
             75% 100%
         );
+
 }
 
-.feather1{
+.feather.top{
+
     top:-2px;
+
 }
 
-.feather2{
+.feather.bottom{
+
     top:6px;
 
     transform:
         scaleY(-1);
+
 }
 
-/* =========================
-   INSTRUCTION
-========================= */
 
-.instruction{
+/* ==================================================
+   AIM LINE
+================================================== */
+
+.aimLine{
 
     position:absolute;
 
-    left:50%;
+    height:2px;
 
-    bottom:105px;
+    z-index:18;
 
-    transform:
-        translateX(-50%);
+    transform-origin:
+        left center;
 
-    width:90%;
+    border-top:
+        2px dashed
+        rgba(40,30,20,.4);
 
-    text-align:center;
+    pointer-events:none;
 
-    color:#ffb0c7;
+    display:none;
 
-    font-size:13px;
-
-    letter-spacing:.5px;
-
-    opacity:.9;
-
-    z-index:20;
 }
 
-/* =========================
-   SHOOT BUTTON
-========================= */
 
-.shoot-text{
+/* ==================================================
+   HIT EFFECT
+================================================== */
+
+.hit{
 
     position:absolute;
 
-    bottom:35px;
+    z-index:45;
 
-    left:50%;
+    width:60px;
 
-    transform:
-        translateX(-50%);
-
-    color:white;
-
-    font-size:12px;
-
-    letter-spacing:2px;
-
-    opacity:.65;
-
-    z-index:20;
-}
-
-/* =========================
-   HIT MARKER
-========================= */
-
-.hit-marker{
-
-    position:absolute;
-
-    width:25px;
-    height:25px;
+    height:60px;
 
     border-radius:50%;
 
-    border:2px solid white;
+    border:
+        3px solid
+        rgba(255,255,255,.9);
 
     transform:
         translate(-50%,-50%)
-        scale(0);
+        scale(.2);
 
     opacity:0;
 
     pointer-events:none;
 
-    z-index:14;
-
-    box-shadow:
-        0 0 15px #fff,
-        0 0 30px #ff1744;
-
-    animation:none;
 }
 
-.hit-marker.show{
+.hit.active{
 
     animation:
-        hitMarker .7s
-        ease-out forwards;
+        hitEffect
+        .65s
+        ease-out
+        forwards;
+
 }
 
-@keyframes hitMarker{
+@keyframes hitEffect{
 
     0%{
+
+        opacity:1;
+
         transform:
             translate(-50%,-50%)
-            scale(0);
-        opacity:1;
+            scale(.2);
+
     }
 
     70%{
+
+        opacity:.8;
+
         transform:
             translate(-50%,-50%)
-            scale(1.4);
-        opacity:.8;
+            scale(1.5);
+
     }
 
     100%{
+
+        opacity:0;
+
         transform:
             translate(-50%,-50%)
-            scale(1);
-        opacity:0;
+            scale(2);
+
     }
+
 }
 
-/* =========================
-   RESULT
-========================= */
 
-.result{
+/* ==================================================
+   SCORE POP
+================================================== */
+
+.scorePop{
 
     position:absolute;
 
-    left:50%;
-    top:50%;
+    z-index:60;
+
+    color:#fff;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-weight:bold;
+
+    font-size:28px;
+
+    text-shadow:
+        0 2px 4px
+        rgba(0,0,0,.8);
 
     transform:
-        translate(-50%,-50%)
-        scale(.7);
+        translate(-50%,-50%);
+
+    pointer-events:none;
+
+    opacity:0;
+
+}
+
+.scorePop.show{
+
+    animation:
+        scoreUp
+        1s
+        ease-out
+        forwards;
+
+}
+
+@keyframes scoreUp{
+
+    0%{
+
+        opacity:1;
+
+        transform:
+            translate(-50%,-50%)
+            scale(.6);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+            translate(-50%,-130%)
+            scale(1.2);
+
+    }
+
+}
+
+
+/* ==================================================
+   PAUSE
+================================================== */
+
+.pauseBtn{
+
+    position:absolute;
+
+    right:18px;
+
+    bottom:15px;
+
+    z-index:80;
+
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    border:
+        2px solid
+        #21180f;
+
+    background:
+        rgba(255,245,215,.65);
+
+    color:#1d150e;
+
+    font-size:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    cursor:pointer;
+
+}
+
+
+/* ==================================================
+   PAUSE SCREEN
+================================================== */
+
+.pauseScreen{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:100;
+
+    background:
+        rgba(0,0,0,.55);
+
+    backdrop-filter:
+        blur(5px);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+.pauseCard{
+
+    padding:
+        25px 40px;
+
+    border-radius:20px;
+
+    background:
+        rgba(40,25,15,.9);
+
+    border:
+        1px solid
+        rgba(255,220,170,.4);
+
+    color:white;
+
+    text-align:center;
+
+}
+
+.pauseCard h2{
+
+    margin-bottom:15px;
+
+}
+
+.resumeBtn{
+
+    border:0;
+
+    padding:
+        10px 25px;
+
+    border-radius:20px;
+
+    background:
+        #d69a4b;
+
+    color:#24150a;
+
+    font-weight:bold;
+
+}
+
+
+/* ==================================================
+   GAME OVER
+================================================== */
+
+.gameOver{
+
+    position:absolute;
+
+    inset:0;
+
+    z-index:120;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:
+        rgba(0,0,0,.65);
+
+    backdrop-filter:
+        blur(7px);
+
+}
+
+.resultCard{
 
     width:min(90%,380px);
 
-    padding:30px 20px;
+    padding:30px;
 
     border-radius:25px;
 
     background:
-        rgba(10,0,10,.9);
+        linear-gradient(
+            145deg,
+            #38200f,
+            #17100a
+        );
 
     border:
-        1px solid rgba(255,255,255,.15);
-
-    backdrop-filter:blur(20px);
+        1px solid
+        rgba(255,210,130,.4);
 
     text-align:center;
 
-    z-index:100;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    transition:
-        .5s ease;
-
-    box-shadow:
-        0 0 50px rgba(255,20,80,.25);
-}
-
-.result.show{
-
-    opacity:1;
-
-    transform:
-        translate(-50%,-50%)
-        scale(1);
-
-    pointer-events:auto;
-}
-
-.result h1{
-
     color:white;
 
-    font-size:28px;
+    box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.6);
 
-    margin-bottom:10px;
-
-    text-shadow:
-        0 0 20px #ff1744;
 }
 
-.result p{
+.resultCard h1{
 
-    color:#ffabc2;
+    font-size:27px;
 
-    font-size:15px;
+    margin-bottom:8px;
 
-    margin-bottom:20px;
 }
 
-.final-score{
+.finalScore{
 
-    font-size:52px;
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size:65px;
 
     font-weight:bold;
 
-    color:#ff4f88;
+    color:#ffd15a;
 
     text-shadow:
-        0 0 20px #ff1744,
-        0 0 50px rgba(255,23,68,.6);
+        0 0 20px
+        rgba(255,190,60,.7);
+
+    margin:10px 0;
+
 }
 
-.restart{
+.playAgain{
 
     border:0;
 
-    padding:12px 28px;
+    padding:
+        12px 30px;
 
-    border-radius:30px;
-
-    color:white;
+    border-radius:25px;
 
     background:
         linear-gradient(
             135deg,
-            #ff1744,
-            #ff4f91
+            #e2a34e,
+            #f0c16c
         );
 
-    font-size:14px;
+    color:#2b1708;
 
     font-weight:bold;
 
     cursor:pointer;
 
-    box-shadow:
-        0 0 20px rgba(255,23,68,.4);
 }
 
-/* =========================
-   MOBILE
-========================= */
 
-@media(max-width:600px){
+/* ==================================================
+   LANDSCAPE MOBILE
+================================================== */
 
-    .header{
-        top:10px;
-        padding:9px 12px;
+@media(
+    orientation:portrait
+){
+
+    .game::after{
+
+        content:
+            "↻ Rotate your phone";
+
+        position:absolute;
+
+        inset:0;
+
+        z-index:200;
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+        background:
+            #17100a;
+
+        color:#ffe2a5;
+
+        font-family:Arial,sans-serif;
+
+        font-size:20px;
+
+        letter-spacing:1px;
+
     }
 
-    .stat strong{
-        font-size:16px;
+}
+
+
+/* ==================================================
+   SMALL SCREEN LANDSCAPE
+================================================== */
+
+@media(
+    max-height:500px
+){
+
+    .target{
+
+        top:23%;
+
+        right:12%;
+
     }
 
-    .stat small{
-        font-size:8px;
+    .bow{
+
+        bottom:10%;
+
     }
 
-    .target-area{
-        width:min(78vw,310px);
-        top:43%;
-    }
+    .ui{
 
-    .arrow{
-        width:105px;
-    }
+        padding:
+            8px 18px;
 
-    .arrow-shaft{
-        width:88px;
-    }
-
-    .instruction{
-        bottom:95px;
-        font-size:11px;
     }
 
 }
 
 </style>
+
 </head>
 
 
 <body>
 
+
 <div class="game">
 
-    <canvas id="particles"></canvas>
 
-    <!-- ======================
-         HEADER
-    ======================= -->
+    <!-- =============================
+         SKY
+    ============================== -->
 
-    <div class="header">
+    <div class="sky">
 
-        <div class="stat">
+        <div class="sun"></div>
+
+        <div class="cloud one"></div>
+
+        <div class="cloud two"></div>
+
+    </div>
+
+
+    <!-- =============================
+         ENVIRONMENT
+    ============================== -->
+
+    <div class="mountains"></div>
+
+    <div class="far-land"></div>
+
+    <div class="river"></div>
+
+    <div class="desert"></div>
+
+    <div class="dune one"></div>
+
+    <div class="dune two"></div>
+
+    <div class="dune three"></div>
+
+    <div class="rock one"></div>
+
+    <div class="rock two"></div>
+
+    <div class="rock three"></div>
+
+
+    <!-- =============================
+         UI
+    ============================== -->
+
+    <div class="ui">
+
+        <div class="scoreBox">
 
             <small>ARROWS</small>
 
             <strong id="arrows">
-                0 / 10
+                10
             </strong>
 
         </div>
 
 
-        <div class="stat">
+        <div class="scoreBox"
+             style="text-align:right;">
 
-            <small>THIS SHOT</small>
+            <small>SCORE</small>
 
-            <strong id="shot">
-                -
-            </strong>
-
-        </div>
-
-
-        <div class="stat">
-
-            <small>TOTAL</small>
-
-            <strong id="total">
+            <strong id="score">
                 0
             </strong>
 
@@ -814,205 +1560,289 @@ canvas{
     </div>
 
 
-    <!-- ======================
+    <!-- =============================
          TARGET
-    ======================= -->
+    ============================== -->
 
     <div
-        class="target-area"
-        id="targetArea"
+        class="target"
+        id="target"
     >
 
-        <div class="target-shadow"></div>
+        <div class="rope left"></div>
 
-        <div class="target">
+        <div class="rope right"></div>
 
-            <!-- 1 point -->
+        <div class="board">
 
-            <div class="ring ring-1">
-                1
-            </div>
-
-            <!-- 2 points -->
-
-            <div class="ring ring-2">
-                2
-            </div>
-
-            <!-- 3 points -->
-
-            <div class="ring ring-3">
-                3
-            </div>
-
-            <!-- 4 points -->
-
-            <div class="ring ring-4">
-                4
-            </div>
-
-            <!-- 5 points -->
-
-            <div class="ring ring-5">
-                5
-            </div>
-
-            <!-- 10 points -->
-
-            <div class="ring ring-10">
-                10
-            </div>
+            <div class="centerDot"></div>
 
         </div>
 
     </div>
 
 
-    <!-- ======================
-         HIT MARKER
-    ======================= -->
+    <!-- =============================
+         BOW
+    ============================== -->
+
+    <div class="bow">
+
+        <div class="bowWood"></div>
+
+        <div class="bowString"></div>
+
+        <div class="bowHandle"></div>
+
+    </div>
+
+
+    <!-- =============================
+         AIM LINE
+    ============================== -->
 
     <div
-        class="hit-marker"
-        id="hitMarker"
-    ></div>
-
-
-    <!-- ======================
-         INSTRUCTION
-    ======================= -->
-
-    <div class="instruction">
-        🏹 Drag the arrow backward, aim at the target, then release
-    </div>
-
-    <div class="shoot-text">
-        10 SHOTS ONLY
+        class="aimLine"
+        id="aimLine">
     </div>
 
 
-    <!-- ======================
+    <!-- =============================
          ARROW
-    ======================= -->
+    ============================== -->
 
     <div
         class="arrow"
         id="arrow"
     >
 
-        <div class="arrow-shaft"></div>
+        <div class="arrowShaft"></div>
 
-        <div class="arrow-head"></div>
+        <div class="arrowHead"></div>
 
-        <div class="feather1"></div>
+        <div class="feather top"></div>
 
-        <div class="feather2"></div>
+        <div class="feather bottom"></div>
 
     </div>
 
 
-    <!-- ======================
-         FINAL RESULT
-    ======================= -->
+    <!-- =============================
+         EFFECTS
+    ============================== -->
 
     <div
-        class="result"
-        id="result"
-    >
+        class="hit"
+        id="hit">
+    </div>
 
-        <h1>
-            ❤️ GAME OVER
-        </h1>
+    <div
+        class="scorePop"
+        id="scorePop">
+    </div>
 
-        <p>
-            Your final score
-        </p>
 
-        <div
-            class="final-score"
-            id="finalScore"
-        >
-            0
+    <!-- =============================
+         PAUSE
+    ============================== -->
+
+    <button
+        class="pauseBtn"
+        id="pauseBtn">
+
+        ⏸
+
+    </button>
+
+
+    <div
+        class="pauseScreen"
+        id="pauseScreen">
+
+        <div class="pauseCard">
+
+            <h2>GAME PAUSED</h2>
+
+            <button
+                class="resumeBtn"
+                id="resumeBtn">
+
+                RESUME
+
+            </button>
+
         </div>
 
-        <p>
-            out of 100
-        </p>
+    </div>
 
-        <button
-            class="restart"
-            onclick="restartGame()"
-        >
-            PLAY AGAIN
-        </button>
+
+    <!-- =============================
+         GAME OVER
+    ============================== -->
+
+    <div
+        class="gameOver"
+        id="gameOver">
+
+        <div class="resultCard">
+
+            <h1>
+                🏹 GAME COMPLETE
+            </h1>
+
+            <p>
+                Your Final Score
+            </p>
+
+            <div
+                class="finalScore"
+                id="finalScore">
+
+                0
+
+            </div>
+
+            <p>
+                Maximum Score: 100
+            </p>
+
+            <br>
+
+            <button
+                class="playAgain"
+                id="playAgain">
+
+                PLAY AGAIN
+
+            </button>
+
+        </div>
 
     </div>
+
 
 </div>
 
 
+
 <script>
 
-/* ==========================================
-   VARIABLES
-========================================== */
-
-const game =
-    document.querySelector(".game");
+/* ==================================================
+   ELEMENTS
+================================================== */
 
 const arrow =
-    document.getElementById("arrow");
+    document.getElementById(
+        "arrow"
+    );
 
-const targetArea =
-    document.getElementById("targetArea");
+const target =
+    document.getElementById(
+        "target"
+    );
 
 const arrowsText =
-    document.getElementById("arrows");
+    document.getElementById(
+        "arrows"
+    );
 
-const shotText =
-    document.getElementById("shot");
+const scoreText =
+    document.getElementById(
+        "score"
+    );
 
-const totalText =
-    document.getElementById("total");
+const aimLine =
+    document.getElementById(
+        "aimLine"
+    );
 
-const result =
-    document.getElementById("result");
+const hit =
+    document.getElementById(
+        "hit"
+    );
+
+const scorePop =
+    document.getElementById(
+        "scorePop"
+    );
+
+const pauseBtn =
+    document.getElementById(
+        "pauseBtn"
+    );
+
+const pauseScreen =
+    document.getElementById(
+        "pauseScreen"
+    );
+
+const resumeBtn =
+    document.getElementById(
+        "resumeBtn"
+    );
+
+const gameOver =
+    document.getElementById(
+        "gameOver"
+    );
 
 const finalScore =
-    document.getElementById("finalScore");
+    document.getElementById(
+        "finalScore"
+    );
 
-const hitMarker =
-    document.getElementById("hitMarker");
+const playAgain =
+    document.getElementById(
+        "playAgain"
+    );
 
 
-let shots = 0;
+/* ==================================================
+   GAME VARIABLES
+================================================== */
 
-let totalScore = 0;
+let arrowsLeft = 10;
+
+let score = 0;
 
 let dragging = false;
 
-let startX = 0;
-let startY = 0;
+let flying = false;
 
-let currentX = 0;
-let currentY = 0;
+let paused = false;
 
 let arrowX = 0;
+
 let arrowY = 0;
 
-let arrowRotation = 0;
+let originalX = 0;
+
+let originalY = 0;
+
+let currentX = 0;
+
+let currentY = 0;
 
 let velocityX = 0;
+
 let velocityY = 0;
 
-let arrowFlying = false;
+let dragStartX = 0;
+
+let dragStartY = 0;
+
+let lastTime = 0;
 
 
-/* ==========================================
-   ARROW START POSITION
-========================================== */
+/* ==================================================
+   PLACE ARROW
+================================================== */
 
-function resetArrow(){
+function placeArrow(){
+
+    if(flying)
+        return;
+
 
     const w =
         window.innerWidth;
@@ -1021,11 +1851,18 @@ function resetArrow(){
         window.innerHeight;
 
 
+    originalX =
+        w * .17;
+
+    originalY =
+        h * .68;
+
+
     arrowX =
-        w / 2 - 55;
+        originalX;
 
     arrowY =
-        h - 145;
+        originalY;
 
 
     arrow.style.left =
@@ -1040,141 +1877,132 @@ function resetArrow(){
     arrow.style.opacity =
         "1";
 
-    arrow.style.transition =
-        "none";
-
-    arrowFlying =
-        false;
 }
 
-resetArrow();
+
+/* ==================================================
+   INITIAL
+================================================== */
+
+placeArrow();
 
 
-/* ==========================================
+/* ==================================================
    POINTER DOWN
-========================================== */
+================================================== */
 
 arrow.addEventListener(
     "pointerdown",
-    function(e){
+    e => {
 
         if(
-            arrowFlying ||
-            shots >= 10
-        ){
+            flying ||
+            paused ||
+            arrowsLeft <= 0
+        )
             return;
-        }
+
 
         e.preventDefault();
 
+
         dragging = true;
+
+
+        dragStartX =
+            e.clientX;
+
+        dragStartY =
+            e.clientY;
+
+
+        currentX =
+            arrowX;
+
+        currentY =
+            arrowY;
+
 
         arrow.classList.add(
             "dragging"
         );
 
-        startX = e.clientX;
-        startY = e.clientY;
-
-        currentX = arrowX;
-        currentY = arrowY;
 
         arrow.setPointerCapture(
             e.pointerId
         );
+
     }
 );
 
 
-/* ==========================================
+/* ==================================================
    POINTER MOVE
-========================================== */
+================================================== */
 
 arrow.addEventListener(
     "pointermove",
-    function(e){
+    e => {
 
-        if(!dragging){
+        if(!dragging)
             return;
-        }
+
 
         e.preventDefault();
 
 
-        const dx =
-            e.clientX - startX;
+        let dx =
+            e.clientX -
+            dragStartX;
 
-        const dy =
-            e.clientY - startY;
-
-
-        /*
-            Only allow pulling
-            backwards/downward.
-        */
-
-        let pullX =
-            dx;
-
-        let pullY =
-            dy;
+        let dy =
+            e.clientY -
+            dragStartY;
 
 
         /*
-            Maximum pull
+          Allow pulling
+          mostly backward/downward.
         */
 
-        const maxPull = 150;
+        dx =
+            Math.min(
+                Math.max(dx,-140),
+                30
+            );
 
-        const distance =
-            Math.sqrt(
-                pullX * pullX +
-                pullY * pullY
+        dy =
+            Math.min(
+                Math.max(dy,-90),
+                130
             );
 
 
-        if(distance > maxPull){
-
-            const ratio =
-                maxPull / distance;
-
-            pullX *= ratio;
-            pullY *= ratio;
-        }
-
-
-        /*
-            Arrow moves opposite
-            to shooting direction.
-        */
-
         currentX =
-            arrowX + pullX;
+            originalX + dx;
 
         currentY =
-            arrowY + pullY;
+            originalY + dy;
 
 
         /*
-            Aim direction
-
-            The arrow points from
-            its current position
-            toward the original position.
+          Shooting direction
         */
 
-        const aimX =
-            arrowX - currentX;
+        const shootX =
+            originalX -
+            currentX;
 
-        const aimY =
-            arrowY - currentY;
+        const shootY =
+            originalY -
+            currentY;
 
 
-        arrowRotation =
+        const angle =
             Math.atan2(
-                aimY,
-                aimX
-            ) * 180 / Math.PI;
+                shootY,
+                shootX
+            );
 
 
         arrow.style.left =
@@ -1183,507 +2011,666 @@ arrow.addEventListener(
         arrow.style.top =
             currentY + "px";
 
+
         arrow.style.transform =
-            `rotate(${arrowRotation}deg)`;
+            `rotate(${angle}rad)`;
+
+
+        /*
+          Aim guide
+        */
+
+        const power =
+            Math.min(
+                Math.sqrt(
+                    shootX*shootX +
+                    shootY*shootY
+                ) / 80,
+                1
+            );
+
+
+        const length =
+            130 +
+            power * 180;
+
+
+        aimLine.style.display =
+            "block";
+
+        aimLine.style.left =
+            originalX + 20 + "px";
+
+        aimLine.style.top =
+            originalY + 6 + "px";
+
+        aimLine.style.width =
+            length + "px";
+
+        aimLine.style.transform =
+            `rotate(${angle}rad)`;
+
     }
 );
 
 
-/* ==========================================
+/* ==================================================
    POINTER UP
-========================================== */
+================================================== */
 
 arrow.addEventListener(
     "pointerup",
-    function(e){
+    e => {
 
-        if(!dragging){
+        if(!dragging)
             return;
-        }
+
 
         dragging = false;
+
 
         arrow.classList.remove(
             "dragging"
         );
 
-        /*
-            Calculate pull force
-        */
+
+        aimLine.style.display =
+            "none";
+
 
         const dx =
-            arrowX - currentX;
+            originalX -
+            currentX;
 
         const dy =
-            arrowY - currentY;
-
-
-        const pull =
-            Math.sqrt(
-                dx * dx +
-                dy * dy
-            );
-
-
-        /*
-            Very small movement
-            = don't shoot
-        */
-
-        if(pull < 20){
-
-            resetArrow();
-
-            return;
-        }
-
-
-        /*
-            Convert pull to velocity
-        */
-
-        const power =
-            Math.min(
-                pull / 30,
-                7
-            );
-
-
-        velocityX =
-            (dx / pull) *
-            power;
-
-        velocityY =
-            (dy / pull) *
-            power;
-
-
-        shootArrow();
-    }
-);
-
-
-/* ==========================================
-   SHOOT ARROW
-========================================== */
-
-function shootArrow(){
-
-    arrowFlying =
-        true;
-
-    shots++;
-
-    arrowsText.textContent =
-        `${shots} / 10`;
-
-
-    let x =
-        currentX;
-
-    let y =
-        currentY;
-
-
-    /*
-        Arrow animation
-    */
-
-    function fly(){
-
-        if(!arrowFlying){
-            return;
-        }
-
-
-        x += velocityX;
-
-        y += velocityY;
-
-
-        /*
-            Small gravity
-        */
-
-        velocityY += .015;
-
-
-        arrow.style.left =
-            x + "px";
-
-        arrow.style.top =
-            y + "px";
-
-
-        /*
-            Rotate toward flight
-        */
-
-        const angle =
-            Math.atan2(
-                velocityY,
-                velocityX
-            ) * 180 / Math.PI;
-
-
-        arrow.style.transform =
-            `rotate(${angle}deg)`;
-
-
-        /*
-            Check target collision
-        */
-
-        const targetRect =
-            targetArea.getBoundingClientRect();
-
-
-        const arrowRect =
-            arrow.getBoundingClientRect();
-
-
-        const arrowTipX =
-            arrowRect.left +
-            arrowRect.width;
-
-        const arrowTipY =
-            arrowRect.top +
-            arrowRect.height / 2;
-
-
-        const targetCenterX =
-            targetRect.left +
-            targetRect.width / 2;
-
-        const targetCenterY =
-            targetRect.top +
-            targetRect.height / 2;
+            originalY -
+            currentY;
 
 
         const distance =
             Math.sqrt(
-
-                Math.pow(
-                    arrowTipX -
-                    targetCenterX,
-                    2
-                )
-
-                +
-
-                Math.pow(
-                    arrowTipY -
-                    targetCenterY,
-                    2
-                )
-
+                dx*dx +
+                dy*dy
             );
 
 
-        /*
-            Hit target
-        */
+        if(distance < 25){
 
-        if(
-            distance <=
-            targetRect.width / 2
-        ){
-
-            arrowFlying =
-                false;
-
-            calculateScore(
-                arrowTipX,
-                arrowTipY
-            );
+            placeArrow();
 
             return;
+
         }
 
 
         /*
-            Arrow missed screen
+          Consume one arrow
         */
 
-        if(
-            x < -200 ||
-            x > window.innerWidth + 200 ||
-            y < -200 ||
-            y > window.innerHeight + 200
-        ){
+        arrowsLeft--;
 
-            arrowFlying =
-                false;
+        arrowsText.textContent =
+            arrowsLeft;
 
-            registerShot(0);
 
-            return;
-        }
+        /*
+          Speed
+        */
+
+        const power =
+            Math.min(
+                distance / 17,
+                18
+            );
+
+
+        velocityX =
+            (dx / distance)
+            * power;
+
+        velocityY =
+            (dy / distance)
+            * power;
+
+
+        flying = true;
 
 
         requestAnimationFrame(
-            fly
+            flyArrow
         );
+
+    }
+);
+
+
+/* ==================================================
+   FLY ARROW
+================================================== */
+
+function flyArrow(time){
+
+    if(!flying)
+        return;
+
+
+    if(paused){
+
+        lastTime =
+            time;
+
+        requestAnimationFrame(
+            flyArrow
+        );
+
+        return;
+
+    }
+
+
+    if(!lastTime)
+        lastTime =
+            time;
+
+
+    const dt =
+        Math.min(
+            (time - lastTime) / 16.67,
+            2
+        );
+
+
+    lastTime =
+        time;
+
+
+    arrowX +=
+        velocityX * dt;
+
+    arrowY +=
+        velocityY * dt;
+
+
+    /*
+      Gravity
+    */
+
+    velocityY +=
+        .38 * dt;
+
+
+    /*
+      Arrow angle
+    */
+
+    const angle =
+        Math.atan2(
+            velocityY,
+            velocityX
+        );
+
+
+    arrow.style.left =
+        arrowX + "px";
+
+    arrow.style.top =
+        arrowY + "px";
+
+    arrow.style.transform =
+        `rotate(${angle}rad)`;
+
+
+    /*
+      Target collision
+    */
+
+    const targetRect =
+        target.getBoundingClientRect();
+
+
+    const arrowRect =
+        arrow.getBoundingClientRect();
+
+
+    const tipX =
+        arrowRect.left +
+        arrowRect.width -
+        4;
+
+
+    const tipY =
+        arrowRect.top +
+        arrowRect.height / 2;
+
+
+    const centerX =
+        targetRect.left +
+        targetRect.width / 2;
+
+
+    const centerY =
+        targetRect.top +
+        targetRect.height / 2;
+
+
+    const distance =
+        Math.sqrt(
+
+            Math.pow(
+                tipX -
+                centerX,
+                2
+            )
+
+            +
+
+            Math.pow(
+                tipY -
+                centerY,
+                2
+            )
+
+        );
+
+
+    /*
+      Hit target
+    */
+
+    if(
+        distance <=
+        targetRect.width / 2
+    ){
+
+        arrowHit(
+            tipX,
+            tipY
+        );
+
+        return;
+
+    }
+
+
+    /*
+      Miss
+    */
+
+    if(
+
+        arrowX >
+        window.innerWidth + 250
+
+        ||
+
+        arrowX <
+        -300
+
+        ||
+
+        arrowY >
+        window.innerHeight + 250
+
+        ||
+
+        arrowY <
+        -300
+
+    ){
+
+        arrowMiss();
+
+        return;
+
     }
 
 
     requestAnimationFrame(
-        fly
+        flyArrow
     );
+
 }
 
 
-/* ==========================================
-   CALCULATE SCORE
-========================================== */
+/* ==================================================
+   CALCULATE POINTS
+================================================== */
 
-function calculateScore(
+function getPoints(
     hitX,
     hitY
 ){
 
     const rect =
-        targetArea.getBoundingClientRect();
+        target.getBoundingClientRect();
 
 
-    const centerX =
+    const cx =
         rect.left +
         rect.width / 2;
 
-    const centerY =
+
+    const cy =
         rect.top +
         rect.height / 2;
 
 
     const dx =
-        hitX - centerX;
+        hitX - cx;
+
 
     const dy =
-        hitY - centerY;
+        hitY - cy;
 
 
     const distance =
         Math.sqrt(
-            dx * dx +
-            dy * dy
+            dx*dx +
+            dy*dy
         );
 
 
-    const radius =
-        rect.width / 2;
+    const ratio =
+        distance /
+        (rect.width / 2);
 
 
-    /*
-        Convert distance
-        to target percentage
-    */
+    if(ratio <= .16)
+        return 10;
 
-    const percent =
-        distance / radius;
+    if(ratio <= .31)
+        return 5;
 
+    if(ratio <= .46)
+        return 4;
 
-    let points;
+    if(ratio <= .62)
+        return 3;
 
+    if(ratio <= .80)
+        return 2;
 
-    /*
-        Scoring zones
+    return 1;
 
-        Center 17% = 10
-        33%       = 5
-        49%       = 4
-        65%       = 3
-        82%       = 2
-        100%      = 1
-    */
-
-    if(percent <= .17){
-
-        points = 10;
-
-    }
-
-    else if(percent <= .33){
-
-        points = 5;
-
-    }
-
-    else if(percent <= .49){
-
-        points = 4;
-
-    }
-
-    else if(percent <= .65){
-
-        points = 3;
-
-    }
-
-    else if(percent <= .82){
-
-        points = 2;
-
-    }
-
-    else{
-
-        points = 1;
-
-    }
-
-
-    registerShot(
-        points,
-        hitX,
-        hitY
-    );
 }
 
 
-/* ==========================================
-   REGISTER SHOT
-========================================== */
+/* ==================================================
+   HIT
+================================================== */
 
-function registerShot(
-    points,
-    hitX,
-    hitY
+function arrowHit(
+    x,
+    y
 ){
 
-    totalScore += points;
+    flying = false;
 
 
-    shotText.textContent =
+    const points =
+        getPoints(
+            x,
+            y
+        );
+
+
+    score +=
         points;
 
 
-    totalText.textContent =
-        totalScore;
+    scoreText.textContent =
+        score;
 
 
     /*
-        Show hit marker
+      Hit effect
     */
 
-    if(
-        hitX !== undefined
-    ){
+    hit.style.left =
+        x + "px";
 
-        hitMarker.style.left =
-            hitX + "px";
-
-        hitMarker.style.top =
-            hitY + "px";
-
-        hitMarker.classList.remove(
-            "show"
-        );
+    hit.style.top =
+        y + "px";
 
 
-        void hitMarker.offsetWidth;
+    hit.classList.remove(
+        "active"
+    );
 
 
-        hitMarker.classList.add(
-            "show"
-        );
-    }
+    void hit.offsetWidth;
+
+
+    hit.classList.add(
+        "active"
+    );
 
 
     /*
-        Keep arrow stuck
-        for a moment
+      Score popup
     */
 
-    arrow.style.opacity =
-        "0";
+    scorePop.textContent =
+        "+" + points;
+
+
+    scorePop.style.left =
+        x + "px";
+
+    scorePop.style.top =
+        y + "px";
+
+
+    scorePop.classList.remove(
+        "show"
+    );
+
+
+    void scorePop.offsetWidth;
+
+
+    scorePop.classList.add(
+        "show"
+    );
 
 
     /*
-        Next arrow
+      Arrow stays stuck
+    */
+
+    arrow.style.left =
+        arrowX + "px";
+
+    arrow.style.top =
+        arrowY + "px";
+
+
+    /*
+      Next arrow
     */
 
     setTimeout(
-        function(){
-
-            if(
-                shots >= 10
-            ){
-
-                showFinalResult();
-
-            }
-
-            else{
-
-                resetArrow();
-
-            }
-
-        },
-        800
+        nextShot,
+        650
     );
+
 }
 
 
-/* ==========================================
-   FINAL RESULT
-========================================== */
+/* ==================================================
+   MISS
+================================================== */
 
-function showFinalResult(){
+function arrowMiss(){
+
+    flying = false;
+
+
+    scorePop.textContent =
+        "MISS";
+
+
+    scorePop.style.left =
+        arrowX + "px";
+
+    scorePop.style.top =
+        arrowY + "px";
+
+
+    scorePop.classList.remove(
+        "show"
+    );
+
+
+    void scorePop.offsetWidth;
+
+
+    scorePop.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        nextShot,
+        500
+    );
+
+}
+
+
+/* ==================================================
+   NEXT SHOT
+================================================== */
+
+function nextShot(){
+
+    if(
+        arrowsLeft <= 0
+    ){
+
+        showGameOver();
+
+        return;
+
+    }
+
+
+    placeArrow();
+
+}
+
+
+/* ==================================================
+   GAME OVER
+================================================== */
+
+function showGameOver(){
 
     finalScore.textContent =
-        totalScore;
+        score;
 
-    result.classList.add(
-        "show"
-    );
+
+    gameOver.style.display =
+        "flex";
+
 }
 
 
-/* ==========================================
+/* ==================================================
    RESTART
-========================================== */
+================================================== */
 
-function restartGame(){
+playAgain.addEventListener(
+    "click",
+    () => {
 
-    shots = 0;
+        arrowsLeft = 10;
 
-    totalScore = 0;
+        score = 0;
 
-    shotText.textContent =
-        "-";
+        flying = false;
 
-    totalText.textContent =
-        "0";
+        paused = false;
 
-    arrowsText.textContent =
-        "0 / 10";
+        scoreText.textContent =
+            "0";
 
-
-    result.classList.remove(
-        "show"
-    );
+        arrowsText.textContent =
+            "10";
 
 
-    resetArrow();
-}
+        gameOver.style.display =
+            "none";
 
 
-/* ==========================================
+        pauseScreen.style.display =
+            "none";
+
+
+        placeArrow();
+
+    }
+);
+
+
+/* ==================================================
+   PAUSE
+================================================== */
+
+pauseBtn.addEventListener(
+    "click",
+    () => {
+
+        if(
+            gameOver.style.display ===
+            "flex"
+        )
+            return;
+
+
+        paused = true;
+
+
+        pauseScreen.style.display =
+            "flex";
+
+    }
+);
+
+
+/* ==================================================
+   RESUME
+================================================== */
+
+resumeBtn.addEventListener(
+    "click",
+    () => {
+
+        paused = false;
+
+        pauseScreen.style.display =
+            "none";
+
+        lastTime = 0;
+
+    }
+);
+
+
+/* ==================================================
    RESIZE
-========================================== */
+================================================== */
 
 window.addEventListener(
     "resize",
-    function(){
+    () => {
 
         if(
-            !arrowFlying &&
+            !flying &&
             !dragging
         ){
 
-            resetArrow();
+            placeArrow();
 
         }
 
@@ -1691,161 +2678,38 @@ window.addEventListener(
 );
 
 
-/* ==========================================
-   BACKGROUND PARTICLES
-========================================== */
+/* ==================================================
+   SERVICE WORKER
+================================================== */
 
-const canvas =
-    document.getElementById(
-        "particles"
-    );
-
-const ctx =
-    canvas.getContext("2d");
-
-
-function resizeCanvas(){
-
-    canvas.width =
-        window.innerWidth;
-
-    canvas.height =
-        window.innerHeight;
-}
-
-resizeCanvas();
-
-window.addEventListener(
-    "resize",
-    resizeCanvas
-);
-
-
-const particles = [];
-
-for(
-    let i = 0;
-    i < 100;
-    i++
+if(
+    "serviceWorker"
+    in navigator
 ){
-
-    particles.push({
-
-        x:
-            Math.random()
-            * window.innerWidth,
-
-        y:
-            Math.random()
-            * window.innerHeight,
-
-        r:
-            Math.random() * 2 + .5,
-
-        speed:
-            Math.random() * .5 + .1,
-
-        alpha:
-            Math.random() * .5 + .1
-
-    });
-}
-
-
-function drawParticles(){
-
-    ctx.clearRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-    );
-
-
-    particles.forEach(
-        p => {
-
-            p.y -= p.speed;
-
-
-            if(p.y < 0){
-
-                p.y =
-                    window.innerHeight;
-
-            }
-
-
-            ctx.beginPath();
-
-            ctx.arc(
-                p.x,
-                p.y,
-                p.r,
-                0,
-                Math.PI * 2
-            );
-
-
-            ctx.fillStyle =
-                `rgba(255,80,140,${p.alpha})`;
-
-
-            ctx.shadowBlur =
-                10;
-
-            ctx.shadowColor =
-                "#ff1744";
-
-
-            ctx.fill();
-
-        }
-    );
-
-
-    requestAnimationFrame(
-        drawParticles
-    );
-}
-
-
-drawParticles();
-
-</script>
-      <script>
-
-if ("serviceWorker" in navigator) {
 
     window.addEventListener(
         "load",
         () => {
 
-            navigator.serviceWorker.register(
-                "./sw.js"
-            )
-            .then(() => {
-
-                console.log(
-                    "Service Worker registered"
+            navigator.serviceWorker
+                .register(
+                    "./sw.js"
+                )
+                .catch(
+                    error =>
+                    console.log(
+                        "SW Error:",
+                        error
+                    )
                 );
-
-            })
-            .catch(error => {
-
-                console.log(
-                    "Service Worker error:",
-                    error
-                );
-
-            });
 
         }
     );
 
 }
 
-      </script>
+</script>
 
 </body>
-  </html>
+
+      </html>
