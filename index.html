@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>Heart Archery ❤️</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,sans-serif;
+    background:#050006;
+}
+
+body{
+    touch-action:none;
+}
+
+.game{
+    width:100vw;
+    height:100vh;
+    position:relative;
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #210010 0%,
+            #0b0008 48%,
+            #020003 100%
+        );
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+canvas{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    position:absolute;
+    top:18px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:92%;
+    max-width:600px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:20;
+
+    color:white;
+
+    padding:12px 18px;
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:
+        0 0 25px rgba(255,20,80,.08);
+}
+
+.stat{
+    text-align:center;
+}
+
+.stat small{
+    display:block;
+
+    font-size:10px;
+
+    color:#ff9ab8;
+
+    letter-spacing:1px;
+
+    margin-bottom:3px;
+}
+
+.stat strong{
+    font-size:20px;
+
+    color:white;
+
+    text-shadow:
+        0 0 10px #ff3970;
+}
+
+/* =========================
+   TARGET AREA
+========================= */
+
+.target-area{
+
+    position:absolute;
+
+    left:50%;
+    top:45%;
+
+    transform:
+        translate(-50%,-50%);
+
+    width:min(78vw,360px);
+    aspect-ratio:1;
+
+    z-index:5;
+}
+
+/* Target shadow */
+
+.target-shadow{
+
+    position:absolute;
+
+    inset:-25px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,30,90,.18),
+            transparent 68%
+        );
+
+    filter:blur(15px);
+
+    animation:
+        targetGlow 2s
+        infinite
+        ease-in-out;
+}
+
+@keyframes targetGlow{
+
+    0%,100%{
+        transform:scale(.94);
+        opacity:.6;
+    }
+
+    50%{
+        transform:scale(1.05);
+        opacity:1;
+    }
+}
+
+/* =========================
+   TARGET CIRCLES
+========================= */
+
+.target{
+    position:absolute;
+
+    inset:0;
+
+    border-radius:50%;
+
+    overflow:visible;
+
+    box-shadow:
+        0 0 25px rgba(255,30,80,.35),
+        0 0 70px rgba(255,30,80,.12);
+}
+
+/*
+    Six scoring zones
+
+    Center = 10
+    next   = 5
+    next   = 4
+    next   = 3
+    next   = 2
+    outer  = 1
+*/
+
+.ring{
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    font-weight:bold;
+
+    border:2px solid rgba(255,255,255,.8);
+
+    box-shadow:
+        inset 0 0 20px rgba(255,255,255,.08),
+        0 0 12px rgba(255,255,255,.08);
+}
+
+/* 1 point */
+
+.ring-1{
+    width:100%;
+    height:100%;
+
+    background:#efefef;
+
+    color:#111;
+
+    font-size:13px;
+}
+
+/* 2 point */
+
+.ring-2{
+    width:82%;
+    height:82%;
+
+    background:#111;
+
+    color:white;
+
+    font-size:13px;
+}
+
+/* 3 point */
+
+.ring-3{
+    width:65%;
+    height:65%;
+
+    background:#168cff;
+
+    color:white;
+
+    font-size:13px;
+}
+
+/* 4 point */
+
+.ring-4{
+    width:49%;
+    height:49%;
+
+    background:#e91e3f;
+
+    color:white;
+
+    font-size:13px;
+}
+
+/* 5 point */
+
+.ring-5{
+    width:33%;
+    height:33%;
+
+    background:#ffd43b;
+
+    color:#111;
+
+    font-size:12px;
+}
+
+/* 10 point */
+
+.ring-10{
+    width:17%;
+    height:17%;
+
+    background:#ff3b30;
+
+    color:white;
+
+    font-size:10px;
+
+    border:2px solid white;
+
+    box-shadow:
+        0 0 15px #ff1744,
+        0 0 30px rgba(255,23,68,.8);
+}
+
+/* target label */
+
+.target-label{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%);
+
+    color:white;
+
+    font-size:7px;
+
+    font-weight:bold;
+
+    pointer-events:none;
+
+    z-index:10;
+}
+
+/* =========================
+   AIM GUIDE
+========================= */
+
+.aim-line{
+
+    position:absolute;
+
+    height:2px;
+
+    transform-origin:left center;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.7),
+            transparent
+        );
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:7;
+}
+
+/* =========================
+   ARROW
+========================= */
+
+.arrow{
+
+    position:absolute;
+
+    width:125px;
+
+    height:12px;
+
+    z-index:15;
+
+    transform-origin:
+        10px 50%;
+
+    cursor:grab;
+
+    user-select:none;
+
+    touch-action:none;
+
+    filter:
+        drop-shadow(
+            0 0 7px
+            rgba(255,255,255,.35)
+        );
+}
+
+.arrow.dragging{
+    cursor:grabbing;
+}
+
+/* arrow shaft */
+
+.arrow-shaft{
+
+    position:absolute;
+
+    left:10px;
+    top:5px;
+
+    width:105px;
+    height:3px;
+
+    border-radius:5px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #e8e8e8,
+            #ffffff,
+            #aaa
+        );
+}
+
+/* arrow head */
+
+.arrow-head{
+
+    position:absolute;
+
+    right:0;
+    top:1px;
+
+    width:0;
+    height:0;
+
+    border-top:5px solid transparent;
+
+    border-bottom:5px solid transparent;
+
+    border-right:0;
+
+    border-left:
+        16px solid #ddd;
+}
+
+/* arrow feathers */
+
+.feather1,
+.feather2{
+
+    position:absolute;
+
+    left:5px;
+
+    width:18px;
+    height:8px;
+
+    background:#ff4f88;
+
+    clip-path:
+        polygon(
+            0 100%,
+            100% 0,
+            75% 100%
+        );
+}
+
+.feather1{
+    top:-2px;
+}
+
+.feather2{
+    top:6px;
+
+    transform:
+        scaleY(-1);
+}
+
+/* =========================
+   INSTRUCTION
+========================= */
+
+.instruction{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:105px;
+
+    transform:
+        translateX(-50%);
+
+    width:90%;
+
+    text-align:center;
+
+    color:#ffb0c7;
+
+    font-size:13px;
+
+    letter-spacing:.5px;
+
+    opacity:.9;
+
+    z-index:20;
+}
+
+/* =========================
+   SHOOT BUTTON
+========================= */
+
+.shoot-text{
+
+    position:absolute;
+
+    bottom:35px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%);
+
+    color:white;
+
+    font-size:12px;
+
+    letter-spacing:2px;
+
+    opacity:.65;
+
+    z-index:20;
+}
+
+/* =========================
+   HIT MARKER
+========================= */
+
+.hit-marker{
+
+    position:absolute;
+
+    width:25px;
+    height:25px;
+
+    border-radius:50%;
+
+    border:2px solid white;
+
+    transform:
+        translate(-50%,-50%)
+        scale(0);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:14;
+
+    box-shadow:
+        0 0 15px #fff,
+        0 0 30px #ff1744;
+
+    animation:none;
+}
+
+.hit-marker.show{
+
+    animation:
+        hitMarker .7s
+        ease-out forwards;
+}
+
+@keyframes hitMarker{
+
+    0%{
+        transform:
+            translate(-50%,-50%)
+            scale(0);
+        opacity:1;
+    }
+
+    70%{
+        transform:
+            translate(-50%,-50%)
+            scale(1.4);
+        opacity:.8;
+    }
+
+    100%{
+        transform:
+            translate(-50%,-50%)
+            scale(1);
+        opacity:0;
+    }
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+
+    position:absolute;
+
+    left:50%;
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.7);
+
+    width:min(90%,380px);
+
+    padding:30px 20px;
+
+    border-radius:25px;
+
+    background:
+        rgba(10,0,10,.9);
+
+    border:
+        1px solid rgba(255,255,255,.15);
+
+    backdrop-filter:blur(20px);
+
+    text-align:center;
+
+    z-index:100;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:
+        .5s ease;
+
+    box-shadow:
+        0 0 50px rgba(255,20,80,.25);
+}
+
+.result.show{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+
+    pointer-events:auto;
+}
+
+.result h1{
+
+    color:white;
+
+    font-size:28px;
+
+    margin-bottom:10px;
+
+    text-shadow:
+        0 0 20px #ff1744;
+}
+
+.result p{
+
+    color:#ffabc2;
+
+    font-size:15px;
+
+    margin-bottom:20px;
+}
+
+.final-score{
+
+    font-size:52px;
+
+    font-weight:bold;
+
+    color:#ff4f88;
+
+    text-shadow:
+        0 0 20px #ff1744,
+        0 0 50px rgba(255,23,68,.6);
+}
+
+.restart{
+
+    border:0;
+
+    padding:12px 28px;
+
+    border-radius:30px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff1744,
+            #ff4f91
+        );
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 0 20px rgba(255,23,68,.4);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .header{
+        top:10px;
+        padding:9px 12px;
+    }
+
+    .stat strong{
+        font-size:16px;
+    }
+
+    .stat small{
+        font-size:8px;
+    }
+
+    .target-area{
+        width:min(78vw,310px);
+        top:43%;
+    }
+
+    .arrow{
+        width:105px;
+    }
+
+    .arrow-shaft{
+        width:88px;
+    }
+
+    .instruction{
+        bottom:95px;
+        font-size:11px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="game">
+
+    <canvas id="particles"></canvas>
+
+    <!-- ======================
+         HEADER
+    ======================= -->
+
+    <div class="header">
+
+        <div class="stat">
+
+            <small>ARROWS</small>
+
+            <strong id="arrows">
+                0 / 10
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>THIS SHOT</small>
+
+            <strong id="shot">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>TOTAL</small>
+
+            <strong id="total">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================
+         TARGET
+    ======================= -->
+
+    <div
+        class="target-area"
+        id="targetArea"
+    >
+
+        <div class="target-shadow"></div>
+
+        <div class="target">
+
+            <!-- 1 point -->
+
+            <div class="ring ring-1">
+                1
+            </div>
+
+            <!-- 2 points -->
+
+            <div class="ring ring-2">
+                2
+            </div>
+
+            <!-- 3 points -->
+
+            <div class="ring ring-3">
+                3
+            </div>
+
+            <!-- 4 points -->
+
+            <div class="ring ring-4">
+                4
+            </div>
+
+            <!-- 5 points -->
+
+            <div class="ring ring-5">
+                5
+            </div>
+
+            <!-- 10 points -->
+
+            <div class="ring ring-10">
+                10
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ======================
+         HIT MARKER
+    ======================= -->
+
+    <div
+        class="hit-marker"
+        id="hitMarker"
+    ></div>
+
+
+    <!-- ======================
+         INSTRUCTION
+    ======================= -->
+
+    <div class="instruction">
+        🏹 Drag the arrow backward, aim at the target, then release
+    </div>
+
+    <div class="shoot-text">
+        10 SHOTS ONLY
+    </div>
+
+
+    <!-- ======================
+         ARROW
+    ======================= -->
+
+    <div
+        class="arrow"
+        id="arrow"
+    >
+
+        <div class="arrow-shaft"></div>
+
+        <div class="arrow-head"></div>
+
+        <div class="feather1"></div>
+
+        <div class="feather2"></div>
+
+    </div>
+
+
+    <!-- ======================
+         FINAL RESULT
+    ======================= -->
+
+    <div
+        class="result"
+        id="result"
+    >
+
+        <h1>
+            ❤️ GAME OVER
+        </h1>
+
+        <p>
+            Your final score
+        </p>
+
+        <div
+            class="final-score"
+            id="finalScore"
+        >
+            0
+        </div>
+
+        <p>
+            out of 100
+        </p>
+
+        <button
+            class="restart"
+            onclick="restartGame()"
+        >
+            PLAY AGAIN
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==========================================
+   VARIABLES
+========================================== */
+
+const game =
+    document.querySelector(".game");
+
+const arrow =
+    document.getElementById("arrow");
+
+const targetArea =
+    document.getElementById("targetArea");
+
+const arrowsText =
+    document.getElementById("arrows");
+
+const shotText =
+    document.getElementById("shot");
+
+const totalText =
+    document.getElementById("total");
+
+const result =
+    document.getElementById("result");
+
+const finalScore =
+    document.getElementById("finalScore");
+
+const hitMarker =
+    document.getElementById("hitMarker");
+
+
+let shots = 0;
+
+let totalScore = 0;
+
+let dragging = false;
+
+let startX = 0;
+let startY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+let arrowX = 0;
+let arrowY = 0;
+
+let arrowRotation = 0;
+
+let velocityX = 0;
+let velocityY = 0;
+
+let arrowFlying = false;
+
+
+/* ==========================================
+   ARROW START POSITION
+========================================== */
+
+function resetArrow(){
+
+    const w =
+        window.innerWidth;
+
+    const h =
+        window.innerHeight;
+
+
+    arrowX =
+        w / 2 - 55;
+
+    arrowY =
+        h - 145;
+
+
+    arrow.style.left =
+        arrowX + "px";
+
+    arrow.style.top =
+        arrowY + "px";
+
+    arrow.style.transform =
+        "rotate(0deg)";
+
+    arrow.style.opacity =
+        "1";
+
+    arrow.style.transition =
+        "none";
+
+    arrowFlying =
+        false;
+}
+
+resetArrow();
+
+
+/* ==========================================
+   POINTER DOWN
+========================================== */
+
+arrow.addEventListener(
+    "pointerdown",
+    function(e){
+
+        if(
+            arrowFlying ||
+            shots >= 10
+        ){
+            return;
+        }
+
+        e.preventDefault();
+
+        dragging = true;
+
+        arrow.classList.add(
+            "dragging"
+        );
+
+        startX = e.clientX;
+        startY = e.clientY;
+
+        currentX = arrowX;
+        currentY = arrowY;
+
+        arrow.setPointerCapture(
+            e.pointerId
+        );
+    }
+);
+
+
+/* ==========================================
+   POINTER MOVE
+========================================== */
+
+arrow.addEventListener(
+    "pointermove",
+    function(e){
+
+        if(!dragging){
+            return;
+        }
+
+        e.preventDefault();
+
+
+        const dx =
+            e.clientX - startX;
+
+        const dy =
+            e.clientY - startY;
+
+
+        /*
+            Only allow pulling
+            backwards/downward.
+        */
+
+        let pullX =
+            dx;
+
+        let pullY =
+            dy;
+
+
+        /*
+            Maximum pull
+        */
+
+        const maxPull = 150;
+
+        const distance =
+            Math.sqrt(
+                pullX * pullX +
+                pullY * pullY
+            );
+
+
+        if(distance > maxPull){
+
+            const ratio =
+                maxPull / distance;
+
+            pullX *= ratio;
+            pullY *= ratio;
+        }
+
+
+        /*
+            Arrow moves opposite
+            to shooting direction.
+        */
+
+        currentX =
+            arrowX + pullX;
+
+        currentY =
+            arrowY + pullY;
+
+
+        /*
+            Aim direction
+
+            The arrow points from
+            its current position
+            toward the original position.
+        */
+
+        const aimX =
+            arrowX - currentX;
+
+        const aimY =
+            arrowY - currentY;
+
+
+        arrowRotation =
+            Math.atan2(
+                aimY,
+                aimX
+            ) * 180 / Math.PI;
+
+
+        arrow.style.left =
+            currentX + "px";
+
+        arrow.style.top =
+            currentY + "px";
+
+        arrow.style.transform =
+            `rotate(${arrowRotation}deg)`;
+    }
+);
+
+
+/* ==========================================
+   POINTER UP
+========================================== */
+
+arrow.addEventListener(
+    "pointerup",
+    function(e){
+
+        if(!dragging){
+            return;
+        }
+
+        dragging = false;
+
+        arrow.classList.remove(
+            "dragging"
+        );
+
+        /*
+            Calculate pull force
+        */
+
+        const dx =
+            arrowX - currentX;
+
+        const dy =
+            arrowY - currentY;
+
+
+        const pull =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+
+        /*
+            Very small movement
+            = don't shoot
+        */
+
+        if(pull < 20){
+
+            resetArrow();
+
+            return;
+        }
+
+
+        /*
+            Convert pull to velocity
+        */
+
+        const power =
+            Math.min(
+                pull / 30,
+                7
+            );
+
+
+        velocityX =
+            (dx / pull) *
+            power;
+
+        velocityY =
+            (dy / pull) *
+            power;
+
+
+        shootArrow();
+    }
+);
+
+
+/* ==========================================
+   SHOOT ARROW
+========================================== */
+
+function shootArrow(){
+
+    arrowFlying =
+        true;
+
+    shots++;
+
+    arrowsText.textContent =
+        `${shots} / 10`;
+
+
+    let x =
+        currentX;
+
+    let y =
+        currentY;
+
+
+    /*
+        Arrow animation
+    */
+
+    function fly(){
+
+        if(!arrowFlying){
+            return;
+        }
+
+
+        x += velocityX;
+
+        y += velocityY;
+
+
+        /*
+            Small gravity
+        */
+
+        velocityY += .015;
+
+
+        arrow.style.left =
+            x + "px";
+
+        arrow.style.top =
+            y + "px";
+
+
+        /*
+            Rotate toward flight
+        */
+
+        const angle =
+            Math.atan2(
+                velocityY,
+                velocityX
+            ) * 180 / Math.PI;
+
+
+        arrow.style.transform =
+            `rotate(${angle}deg)`;
+
+
+        /*
+            Check target collision
+        */
+
+        const targetRect =
+            targetArea.getBoundingClientRect();
+
+
+        const arrowRect =
+            arrow.getBoundingClientRect();
+
+
+        const arrowTipX =
+            arrowRect.left +
+            arrowRect.width;
+
+        const arrowTipY =
+            arrowRect.top +
+            arrowRect.height / 2;
+
+
+        const targetCenterX =
+            targetRect.left +
+            targetRect.width / 2;
+
+        const targetCenterY =
+            targetRect.top +
+            targetRect.height / 2;
+
+
+        const distance =
+            Math.sqrt(
+
+                Math.pow(
+                    arrowTipX -
+                    targetCenterX,
+                    2
+                )
+
+                +
+
+                Math.pow(
+                    arrowTipY -
+                    targetCenterY,
+                    2
+                )
+
+            );
+
+
+        /*
+            Hit target
+        */
+
+        if(
+            distance <=
+            targetRect.width / 2
+        ){
+
+            arrowFlying =
+                false;
+
+            calculateScore(
+                arrowTipX,
+                arrowTipY
+            );
+
+            return;
+        }
+
+
+        /*
+            Arrow missed screen
+        */
+
+        if(
+            x < -200 ||
+            x > window.innerWidth + 200 ||
+            y < -200 ||
+            y > window.innerHeight + 200
+        ){
+
+            arrowFlying =
+                false;
+
+            registerShot(0);
+
+            return;
+        }
+
+
+        requestAnimationFrame(
+            fly
+        );
+    }
+
+
+    requestAnimationFrame(
+        fly
+    );
+}
+
+
+/* ==========================================
+   CALCULATE SCORE
+========================================== */
+
+function calculateScore(
+    hitX,
+    hitY
+){
+
+    const rect =
+        targetArea.getBoundingClientRect();
+
+
+    const centerX =
+        rect.left +
+        rect.width / 2;
+
+    const centerY =
+        rect.top +
+        rect.height / 2;
+
+
+    const dx =
+        hitX - centerX;
+
+    const dy =
+        hitY - centerY;
+
+
+    const distance =
+        Math.sqrt(
+            dx * dx +
+            dy * dy
+        );
+
+
+    const radius =
+        rect.width / 2;
+
+
+    /*
+        Convert distance
+        to target percentage
+    */
+
+    const percent =
+        distance / radius;
+
+
+    let points;
+
+
+    /*
+        Scoring zones
+
+        Center 17% = 10
+        33%       = 5
+        49%       = 4
+        65%       = 3
+        82%       = 2
+        100%      = 1
+    */
+
+    if(percent <= .17){
+
+        points = 10;
+
+    }
+
+    else if(percent <= .33){
+
+        points = 5;
+
+    }
+
+    else if(percent <= .49){
+
+        points = 4;
+
+    }
+
+    else if(percent <= .65){
+
+        points = 3;
+
+    }
+
+    else if(percent <= .82){
+
+        points = 2;
+
+    }
+
+    else{
+
+        points = 1;
+
+    }
+
+
+    registerShot(
+        points,
+        hitX,
+        hitY
+    );
+}
+
+
+/* ==========================================
+   REGISTER SHOT
+========================================== */
+
+function registerShot(
+    points,
+    hitX,
+    hitY
+){
+
+    totalScore += points;
+
+
+    shotText.textContent =
+        points;
+
+
+    totalText.textContent =
+        totalScore;
+
+
+    /*
+        Show hit marker
+    */
+
+    if(
+        hitX !== undefined
+    ){
+
+        hitMarker.style.left =
+            hitX + "px";
+
+        hitMarker.style.top =
+            hitY + "px";
+
+        hitMarker.classList.remove(
+            "show"
+        );
+
+
+        void hitMarker.offsetWidth;
+
+
+        hitMarker.classList.add(
+            "show"
+        );
+    }
+
+
+    /*
+        Keep arrow stuck
+        for a moment
+    */
+
+    arrow.style.opacity =
+        "0";
+
+
+    /*
+        Next arrow
+    */
+
+    setTimeout(
+        function(){
+
+            if(
+                shots >= 10
+            ){
+
+                showFinalResult();
+
+            }
+
+            else{
+
+                resetArrow();
+
+            }
+
+        },
+        800
+    );
+}
+
+
+/* ==========================================
+   FINAL RESULT
+========================================== */
+
+function showFinalResult(){
+
+    finalScore.textContent =
+        totalScore;
+
+    result.classList.add(
+        "show"
+    );
+}
+
+
+/* ==========================================
+   RESTART
+========================================== */
+
+function restartGame(){
+
+    shots = 0;
+
+    totalScore = 0;
+
+    shotText.textContent =
+        "-";
+
+    totalText.textContent =
+        "0";
+
+    arrowsText.textContent =
+        "0 / 10";
+
+
+    result.classList.remove(
+        "show"
+    );
+
+
+    resetArrow();
+}
+
+
+/* ==========================================
+   RESIZE
+========================================== */
+
+window.addEventListener(
+    "resize",
+    function(){
+
+        if(
+            !arrowFlying &&
+            !dragging
+        ){
+
+            resetArrow();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   BACKGROUND PARTICLES
+========================================== */
+
+const canvas =
+    document.getElementById(
+        "particles"
+    );
+
+const ctx =
+    canvas.getContext("2d");
+
+
+function resizeCanvas(){
+
+    canvas.width =
+        window.innerWidth;
+
+    canvas.height =
+        window.innerHeight;
+}
+
+resizeCanvas();
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+const particles = [];
+
+for(
+    let i = 0;
+    i < 100;
+    i++
+){
+
+    particles.push({
+
+        x:
+            Math.random()
+            * window.innerWidth,
+
+        y:
+            Math.random()
+            * window.innerHeight,
+
+        r:
+            Math.random() * 2 + .5,
+
+        speed:
+            Math.random() * .5 + .1,
+
+        alpha:
+            Math.random() * .5 + .1
+
+    });
+}
+
+
+function drawParticles(){
+
+    ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    particles.forEach(
+        p => {
+
+            p.y -= p.speed;
+
+
+            if(p.y < 0){
+
+                p.y =
+                    window.innerHeight;
+
+            }
+
+
+            ctx.beginPath();
+
+            ctx.arc(
+                p.x,
+                p.y,
+                p.r,
+                0,
+                Math.PI * 2
+            );
+
+
+            ctx.fillStyle =
+                `rgba(255,80,140,${p.alpha})`;
+
+
+            ctx.shadowBlur =
+                10;
+
+            ctx.shadowColor =
+                "#ff1744";
+
+
+            ctx.fill();
+
+        }
+    );
+
+
+    requestAnimationFrame(
+        drawParticles
+    );
+}
+
+
+drawParticles();
+
+</script>
+
+</body>
+  </html>
